@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Medieval Europe Historical Atlas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <h1>Medieval Europe Historical Atlas</h1>
+  <p>Step 1 prototype: slider, religious-control map, popes, events, and important people.</p>
+</header>
+
+<div class="app">
+  <main class="mapBox">
+    <div class="controls">
+      <button id="zoomIn">+</button>
+      <button id="zoomOut">−</button>
+      <button id="reset">Reset</button>
+    </div>
+    <div id="tooltip" class="tooltip"></div>
+
+    <svg id="svg" viewBox="0 0 1200 760">
+      <g id="viewport">
+        <rect x="-2000" y="-2000" width="5000" height="5000" fill="#15365d"></rect>
+        <path class="land" id="landPath"></path>
+        <text class="sea" x="120" y="575">Atlantic Ocean</text>
+        <text class="sea" x="575" y="705">Mediterranean Sea</text>
+        <text class="sea" x="1030" y="520">Black Sea</text>
+        <text class="sea" x="340" y="250">North Sea</text>
+        <text class="sea" x="690" y="130">Baltic Sea</text>
+        <g id="realms"></g>
+        <g id="labels"></g>
+      </g>
+    </svg>
+  </main>
+
+  <aside class="panel">
+    <div class="smallTitle">Selected year</div>
+    <div id="year" class="year">500</div>
+
+    <input id="slider" type="range" min="500" max="1500" step="1" value="500">
+    <div class="ticks">
+      <span>500</span><span>700</span><span>900</span><span>1100</span><span>1300</span><span>1500</span>
+    </div>
+
+    <section class="card">
+      <h2>Color key</h2>
+      <div class="legendItem"><span class="swatch christian"></span><span>Christian-controlled</span></div>
+      <div class="legendItem"><span class="swatch muslim"></span><span>Muslim-controlled</span></div>
+      <div class="legendItem"><span class="swatch other"></span><span>Pagan / Other</span></div>
+      <div class="legendItem"><span class="swatch mixed"></span><span>Mixed / Contested</span></div>
+    </section>
+
+    <section class="card">
+      <h2>Pope</h2>
+      <p id="popeText"></p>
+    </section>
+
+    <section class="card" id="regionInfo">
+      <h2>Click a region</h2>
+      <p>Select a colored area to see its status.</p>
+    </section>
+
+    <section class="card">
+      <h2>Major events near this year</h2>
+      <div id="eventList" class="eventList"></div>
+    </section>
+
+    <section class="card">
+      <h2>Regions shown for this period</h2>
+      <div id="regionList" class="regionList"></div>
+    </section>
+
+    <p class="note">
+      Step 1 uses simplified benchmark map snapshots. The pope and event panels update by exact selected year.
+      Next steps will add more accurate borders, kings, battles, search, and filters.
+    </p>
+  </aside>
+</div>
+
+<script src="data/mapSnapshots.js"></script>
+<script src="data/popes.js"></script>
+<script src="data/events.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
