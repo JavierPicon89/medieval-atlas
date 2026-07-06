@@ -1,5 +1,3 @@
-alert("NEW APP.JS LOADED");
-
 let kingdomDatabase = {};
 const state = {
   selectedYear: 500,
@@ -173,16 +171,12 @@ function updateLayerVisibility(id) {
 }
 
 function updateVisibleCount(id) {
-  const source = map.getSource(id);
   const counter = document.getElementById("visibleCount");
+  if (!counter) return;
 
-  if (!source || !counter) return;
-
-  const features = map.querySourceFeatures(id);
-  const visibleFeatures = features.filter((feature) => {
-    const p = feature.properties;
-    return p.startYear <= state.selectedYear && p.endYear >= state.selectedYear;
+  const visibleRecords = Object.values(kingdomDatabase).filter((record) => {
+    return record.startYear <= state.selectedYear && record.endYear >= state.selectedYear;
   });
 
-  counter.textContent = `${visibleFeatures.length} regions active in ${state.selectedYear} CE`;
+  counter.textContent = `${visibleRecords.length} regions active in ${state.selectedYear} CE`;
 }
