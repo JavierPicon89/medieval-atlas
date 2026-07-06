@@ -12,22 +12,93 @@
         "endYear": 843,
         "capital": "Soissons / Paris",
         "ruler": "Clovis I around 481–511",
+        "dynasty": "Merovingian",
         "certainty": "approximate",
-        "description": "A simplified early Frankish realm used as the first test layer for the atlas engine."
+        "description": "A simplified early Frankish realm in northern Gaul and the Rhineland. Clovis I expanded Frankish power and his conversion to Catholic Christianity helped shape medieval Western Europe."
       },
       "geometry": {
         "type": "Polygon",
-        "coordinates": [
-          [
-            [1.5, 51.5],
-            [7.5, 51.0],
-            [9.5, 48.5],
-            [7.0, 45.5],
-            [2.0, 45.0],
-            [-1.5, 47.5],
-            [1.5, 51.5]
-          ]
-        ]
+        "coordinates": [[[1.5,51.5],[7.5,51.0],[9.5,48.5],[7.0,45.5],[2.0,45.0],[-1.5,47.5],[1.5,51.5]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "visigothic_kingdom_500",
+        "name": "Visigothic Kingdom",
+        "type": "kingdom",
+        "religion": "Christian",
+        "startYear": 418,
+        "endYear": 711,
+        "capital": "Toulouse / later Toledo",
+        "ruler": "Alaric II around 484–507",
+        "dynasty": "Balti dynasty",
+        "certainty": "approximate",
+        "description": "A major post-Roman kingdom ruling much of Iberia and parts of southern Gaul. Around 500 CE its center was still connected to Toulouse before later shifting toward Toledo."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[-8.8,43.6],[3.2,43.8],[5.2,42.2],[1.0,37.2],[-8.2,36.2],[-9.5,40.0],[-8.8,43.6]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "ostrogothic_kingdom_500",
+        "name": "Ostrogothic Kingdom",
+        "type": "kingdom",
+        "religion": "Christian",
+        "startYear": 493,
+        "endYear": 553,
+        "capital": "Ravenna",
+        "ruler": "Theoderic the Great around 493–526",
+        "dynasty": "Amal dynasty",
+        "certainty": "approximate",
+        "description": "The Ostrogothic Kingdom controlled Italy after Theoderic defeated Odoacer. It preserved many Roman administrative traditions while ruling as a Gothic kingdom."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[7.0,46.5],[13.5,46.2],[15.5,43.0],[16.0,39.0],[13.0,37.5],[10.0,41.8],[7.0,46.5]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "byzantine_empire_500",
+        "name": "Byzantine Empire",
+        "type": "empire",
+        "religion": "Christian",
+        "startYear": 395,
+        "endYear": 1453,
+        "capital": "Constantinople",
+        "ruler": "Anastasius I around 491–518",
+        "dynasty": "Leonid dynasty",
+        "certainty": "highly simplified",
+        "description": "The Eastern Roman Empire remained the dominant imperial power in the eastern Mediterranean. Around 500 CE it controlled Constantinople, the Balkans, Greece, Anatolia, and parts of the eastern Mediterranean."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[16.0,46.0],[30.0,45.0],[35.0,41.0],[31.0,36.0],[22.0,36.5],[18.0,39.5],[16.0,46.0]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "anglo_saxon_kingdoms_500",
+        "name": "Anglo-Saxon Kingdoms",
+        "type": "kingdoms",
+        "religion": "Pagan / Christian transition",
+        "startYear": 450,
+        "endYear": 1066,
+        "capital": "Multiple centers",
+        "ruler": "Multiple rulers",
+        "dynasty": "Various",
+        "certainty": "approximate",
+        "description": "A simplified representation of early Anglo-Saxon polities in Britain. Around 500 CE the region was politically fragmented and still undergoing major cultural and religious change."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[-5.2,55.2],[1.2,53.2],[1.0,50.3],[-5.0,50.1],[-5.2,55.2]]]
       }
     }
   ]

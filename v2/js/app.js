@@ -8,7 +8,7 @@ const state = {
 const map = new maplibregl.Map({
   container: "map",
   style: "https://demotiles.maplibre.org/style.json",
-  center: [12, 48],
+  center: [10, 47],
   zoom: 3
 });
 
@@ -18,7 +18,7 @@ map.on("load", async () => {
   await loadGeoJsonLayer({
     id: "kingdoms",
     url: "geojson/kingdoms.geojson",
-    fillColor: "#7c3aed",
+    fallbackFillColor: "#7c3aed",
     lineColor: "#2e1065"
   });
 
@@ -26,9 +26,11 @@ map.on("load", async () => {
   updateVisibleLayers();
 });
 
-async function loadGeoJsonLayer({ id, url, fillColor, lineColor }) {
-  const response = await fetch(url);
+async function loadGeoJsonLayer({ id, url, fallbackFillColor, lineColor }) {
+  const response = await fetch(`${url}?cache=${Date.now()}`);
   const data = await response.json();
+
+  console.log(`${id} features loaded:`, data.features.length);
 
   map.addSource(id, {
     type: "geojson",
@@ -40,8 +42,8 @@ async function loadGeoJsonLayer({ id, url, fillColor, lineColor }) {
     type: "fill",
     source: id,
     paint: {
-      "fill-color": fillColor,
-      "fill-opacity": 0.45
+      "fill-color": ["coalesce", ["get", "color"], fallbackFillColor],
+      "fill-opacity": 0.55
     }
   });
 
@@ -56,8 +58,7 @@ async function loadGeoJsonLayer({ id, url, fillColor, lineColor }) {
   });
 
   map.on("click", `${id}-fill`, (event) => {
-    const feature = event.features[0];
-    const p = feature.properties;
+    const p = event.features[0].properties;
 
     new maplibregl.Popup()
       .setLngLat(event.lngLat)
@@ -68,6 +69,7 @@ async function loadGeoJsonLayer({ id, url, fillColor, lineColor }) {
         <p><strong>Active:</strong> ${p.startYear}–${p.endYear}</p>
         <p><strong>Capital:</strong> ${p.capital}</p>
         <p><strong>Ruler:</strong> ${p.ruler}</p>
+        <p><strong>Dynasty:</strong> ${p.dynasty || "Unknown / varied"}</p>
         <p><strong>Certainty:</strong> ${p.certainty}</p>
         <p>${p.description}</p>
       `)
@@ -112,11 +114,8 @@ function buildInterface() {
     </section>
 
     <section class="panel-section">
-      <h2>Current milestone</h2>
-      <p>
-        This version proves that the atlas can load historical GeoJSON,
-        filter it by year, and display information from data.
-      </p>
+      <h2>Visible historical regions</h2>
+      <div id="visibleCount">Loading...</div>
     </section>
   `;
 
@@ -156,4 +155,21 @@ function updateLayerVisibility(id) {
     map.setFilter(`${id}-line`, yearFilter);
     map.setLayoutProperty(`${id}-line`, "visibility", visible);
   }
+
+  updateVisibleCount(id);
+}
+
+function updateVisibleCount(id) {
+  const source = map.getSource(id);
+  const counter = document.getElementById("visibleCount");
+
+  if (!source || !counter) return;
+
+  const features = map.querySourceFeatures(id);
+  const visibleFeatures = features.filter((feature) => {
+    const p = feature.properties;
+    return p.startYear <= state.selectedYear && p.endYear >= state.selectedYear;
+  });
+
+  counter.textContent = `${visibleFeatures.length} regions active in ${state.selectedYear} CE`;
 }
