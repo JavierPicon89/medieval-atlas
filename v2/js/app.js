@@ -172,11 +172,16 @@ function updateLayerVisibility(id) {
 
 function updateVisibleCount(id) {
   const counter = document.getElementById("visibleCount");
+
   if (!counter) return;
 
-  const visibleRecords = Object.values(kingdomDatabase).filter((record) => {
-    return record.startYear <= state.selectedYear && record.endYear >= state.selectedYear;
+  const visibleRecords = Object.values(kingdomDatabase).filter(record => {
+    return (
+      record.startYear <= state.selectedYear &&
+      record.endYear >= state.selectedYear
+    );
   });
 
-  counter.textContent = `${visibleRecords.length} regions active in ${state.selectedYear} CE`;
+  counter.textContent =
+    `${visibleRecords.length} regions active in ${state.selectedYear} CE`;
 }
