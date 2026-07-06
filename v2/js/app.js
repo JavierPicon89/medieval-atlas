@@ -1,3 +1,6 @@
+alert("NEW APP.JS LOADED");
+
+let kingdomDatabase = {};
 const state = {
   selectedYear: 500,
   layers: {
@@ -15,7 +18,11 @@ const map = new maplibregl.Map({
 map.addControl(new maplibregl.NavigationControl(), "top-left");
 
 map.on("load", async () => {
-  await loadGeoJsonLayer({
+
+  const dbResponse = await fetch("data/kingdoms.json");
+kingdomDatabase = await dbResponse.json();
+
+await loadGeoJsonLayer({
     id: "kingdoms",
     url: "geojson/kingdoms.geojson",
     fallbackFillColor: "#7c3aed",
@@ -58,20 +65,26 @@ async function loadGeoJsonLayer({ id, url, fallbackFillColor, lineColor }) {
   });
 
   map.on("click", `${id}-fill`, (event) => {
+
+    console.log("Polygon clicked!");
+
     const p = event.features[0].properties;
+    const record = kingdomDatabase[p.id] || p;
+    console.log(record);
 
     new maplibregl.Popup()
       .setLngLat(event.lngLat)
       .setHTML(`
-        <h3>${p.name}</h3>
-        <p><strong>Type:</strong> ${p.type}</p>
-        <p><strong>Religion:</strong> ${p.religion}</p>
-        <p><strong>Active:</strong> ${p.startYear}–${p.endYear}</p>
-        <p><strong>Capital:</strong> ${p.capital}</p>
-        <p><strong>Ruler:</strong> ${p.ruler}</p>
-        <p><strong>Dynasty:</strong> ${p.dynasty || "Unknown / varied"}</p>
-        <p><strong>Certainty:</strong> ${p.certainty}</p>
-        <p>${p.description}</p>
+      <h3>${record.name}</h3>
+      <p><strong>Type:</strong> ${record.type}</p>
+      <p><strong>Religion:</strong> ${record.religion}</p>
+      <p><strong>Capital:</strong> ${record.capital}</p>
+      <p><strong>Ruler:</strong> ${record.ruler}</p>
+      <p><strong>Dynasty:</strong> ${record.dynasty}</p>
+      <p><strong>Years:</strong> ${record.startYear}–${record.endYear}</p>
+      <p>${record.description}</p>
+      <h4>Important events</h4>
+  <p>Events found: ${record.importantEvents ? record.importantEvents.length : 0}</p>
       `)
       .addTo(map);
   });

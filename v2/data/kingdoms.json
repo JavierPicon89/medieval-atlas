@@ -1,0 +1,97 @@
+{
+  "frankish_kingdom_500": {
+    "name": "Frankish Kingdom",
+    "type": "Kingdom",
+    "startYear": 481,
+    "endYear": 843,
+    "capital": "Soissons / Paris",
+    "religion": "Christian",
+    "ruler": "Clovis I around 481–511",
+    "dynasty": "Merovingian",
+    "certainty": "Approximate",
+    "description": "A simplified early Frankish realm in northern Gaul and the Rhineland. Clovis I expanded Frankish power and his conversion to Catholic Christianity helped shape medieval Western Europe.",
+    "importantEvents": [
+      "Clovis becomes king of the Salian Franks around 481",
+      "Battle of Soissons in 486",
+      "Conversion of Clovis around 496",
+      "Battle of Vouillé in 507"
+    ],
+    "notes": "The borders shown here are simplified and should later be replaced with sourced historical GIS data."
+  },
+  "visigothic_kingdom_500": {
+    "name": "Visigothic Kingdom",
+    "type": "Kingdom",
+    "startYear": 418,
+    "endYear": 711,
+    "capital": "Toulouse / later Toledo",
+    "religion": "Christian",
+    "ruler": "Alaric II around 484–507",
+    "dynasty": "Balti dynasty",
+    "certainty": "Approximate",
+    "description": "A major post-Roman kingdom ruling much of Iberia and parts of southern Gaul. Around 500 CE its center was still connected to Toulouse before later shifting toward Toledo.",
+    "importantEvents": [
+      "Settlement in Aquitaine after 418",
+      "Rule of Alaric II",
+      "Defeat by the Franks at Vouillé in 507",
+      "Later consolidation in Iberia"
+    ],
+    "notes": "The shown polygon is a simplified teaching shape, not a sourced historical boundary."
+  },
+  "ostrogothic_kingdom_500": {
+    "name": "Ostrogothic Kingdom",
+    "type": "Kingdom",
+    "startYear": 493,
+    "endYear": 553,
+    "capital": "Ravenna",
+    "religion": "Christian",
+    "ruler": "Theoderic the Great around 493–526",
+    "dynasty": "Amal dynasty",
+    "certainty": "Approximate",
+    "description": "The Ostrogothic Kingdom controlled Italy after Theoderic defeated Odoacer. It preserved many Roman administrative traditions while ruling as a Gothic kingdom.",
+    "importantEvents": [
+      "Theoderic defeats Odoacer in 493",
+      "Ravenna becomes the political center",
+      "Gothic War begins in 535",
+      "Byzantine reconquest ends Ostrogothic rule in Italy"
+    ],
+    "notes": "The shown polygon is simplified and will later be replaced with sourced historical boundary data."
+  },
+  "byzantine_empire_500": {
+    "name": "Byzantine Empire",
+    "type": "Empire",
+    "startYear": 395,
+    "endYear": 1453,
+    "capital": "Constantinople",
+    "religion": "Christian",
+    "ruler": "Anastasius I around 491–518",
+    "dynasty": "Leonid dynasty",
+    "certainty": "Highly simplified",
+    "description": "The Eastern Roman Empire remained the dominant imperial power in the eastern Mediterranean. Around 500 CE it controlled Constantinople, the Balkans, Greece, Anatolia, and parts of the eastern Mediterranean.",
+    "importantEvents": [
+      "Anastasius I rules from 491 to 518",
+      "Constantinople remains the imperial capital",
+      "Justinian's reconquests begin later in the 6th century",
+      "The empire survives until the Ottoman conquest of Constantinople in 1453"
+    ],
+    "notes": "The shown polygon is a simplified teaching shape and not an exact border reconstruction."
+  },
+  "anglo_saxon_kingdoms_500": {
+    "name": "Anglo-Saxon Kingdoms",
+    "type": "Kingdoms",
+    "startYear": 450,
+    "endYear": 1066,
+    "capital": "Multiple centers",
+    "religion": "Pagan / Christian transition",
+    "ruler": "Multiple rulers",
+    "dynasty": "Various",
+    "certainty": "Approximate",
+    "description": "A simplified representation of early Anglo-Saxon polities in Britain. Around 500 CE the region was politically fragmented and still undergoing major cultural and religious change.",
+    "importantEvents": [
+      "Migration and settlement in post-Roman Britain",
+      "Formation of regional Anglo-Saxon kingdoms",
+      "Christianization begins later, especially from the mission of Augustine in 597",
+      "Norman conquest ends the Anglo-Saxon royal line in 1066"
+    ],
+    "notes": "The area shown is highly simplified and represents a broad cultural-political zone rather than a single unified kingdom."
+  }
+}
