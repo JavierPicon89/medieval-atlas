@@ -294,7 +294,7 @@ function toggleTimelinePlayback() {
   const button = document.getElementById("playButton");
 
   if (state.isPlaying) {
-    clearInterval(state.playInterval);
+    clearTimeout(state.playInterval);
     state.playInterval = null;
     state.isPlaying = false;
     button.textContent = "▶ Play";
@@ -304,11 +304,15 @@ function toggleTimelinePlayback() {
   state.isPlaying = true;
   button.textContent = "⏸ Pause";
 
-  startTimelineInterval();
+  scheduleNextYear(state.playSpeed);
 }
 
-function startTimelineInterval() {
-  state.playInterval = setInterval(() => {
+function scheduleNextYear(delay) {
+  clearTimeout(state.playInterval);
+
+  state.playInterval = setTimeout(() => {
+    if (!state.isPlaying) return;
+
     state.selectedYear++;
 
     if (state.selectedYear > 1500) {
@@ -325,17 +329,9 @@ function startTimelineInterval() {
       renderInfoPanel(state.selectedFeature);
     }
 
-    if (hasEventForYear(state.selectedYear)) {
-      clearInterval(state.playInterval);
-      state.playInterval = null;
-
-      setTimeout(() => {
-        if (state.isPlaying) {
-          startTimelineInterval();
-        }
-      }, 3000);
-    }
-  }, state.playSpeed);
+    const nextDelay = hasEventForYear(state.selectedYear) ? 3000 : state.playSpeed;
+    scheduleNextYear(nextDelay);
+  }, delay);
 }
 
 function jumpToYear(year) {
