@@ -227,6 +227,10 @@ function renderEventsForYear() {
   `).join("");
 }
 
+function hasEventForYear(year) {
+  return timelineEvents.some(event => event.year === year);
+}
+
 function renderTimelineMarkers() {
   const container = document.getElementById("timelineMarkers");
 
@@ -315,6 +319,16 @@ function toggleTimelinePlayback() {
 
     if (state.selectedFeature) {
       renderInfoPanel(state.selectedFeature);
+    }
+
+    if (hasEventForYear(state.selectedYear)) {
+      clearInterval(state.playInterval);
+
+      setTimeout(() => {
+        if (state.isPlaying) {
+          toggleTimelinePlayback();
+        }
+      }, 2000);
     }
   }, state.playSpeed);
 }
