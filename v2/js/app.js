@@ -5,6 +5,11 @@ let kingdomDatabase = {};
 const state = {
   selectedYear: 500,
   selectedFeature: null,
+
+  isPlaying: false,
+  playInterval: null,
+  playSpeed: 250,
+
   layers: {
     kingdoms: true
   }
@@ -91,7 +96,11 @@ function buildInterface() {
     <label class="year-label" for="yearSlider">Selected year</label>
     <div id="yearValue" class="year-value">${state.selectedYear} CE</div>
 
-    <input
+    <div class="timeline-controls">
+    <button id="playButton">▶ Play</button>
+    </div>
+
+      <input
       id="yearSlider"
       type="range"
       min="500"

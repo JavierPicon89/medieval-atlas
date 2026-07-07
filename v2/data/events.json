@@ -1,0 +1,42 @@
+[
+  {
+    "year": 500,
+    "title": "Beginning of the Atlas",
+    "type": "milestone"
+  },
+  {
+    "year": 800,
+    "title": "Charlemagne crowned Emperor",
+    "type": "empire"
+  },
+  {
+    "year": 1066,
+    "title": "Battle of Hastings",
+    "type": "battle"
+  },
+  {
+    "year": 1095,
+    "title": "First Crusade begins",
+    "type": "crusade"
+  },
+  {
+    "year": 1204,
+    "title": "Fourth Crusade sacks Constantinople",
+    "type": "crusade"
+  },
+  {
+    "year": 1453,
+    "title": "Fall of Constantinople",
+    "type": "empire"
+  },
+  {
+    "year": 1492,
+    "title": "End of the Reconquista",
+    "type": "kingdom"
+  },
+  {
+    "year": 1500,
+    "title": "End of the Medieval Atlas",
+    "type": "milestone"
+  }
+]
