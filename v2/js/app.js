@@ -145,6 +145,11 @@ function buildInterface() {
     state.layers.kingdoms = event.target.checked;
     updateVisibleLayers();
   });
+
+  document.getElementById("playButton").addEventListener("click", () => {
+    toggleTimelinePlayback();
+  });
+
 }
 
 function renderInfoPanel(record) {
@@ -257,4 +262,39 @@ function updateVisibleCount() {
 
   counter.textContent =
     `${visibleRecords.length} regions active in ${state.selectedYear} CE`;
+}
+
+function toggleTimelinePlayback() {
+    const button = document.getElementById("playButton");
+
+    if (state.isPlaying) {
+        clearInterval(state.playInterval);
+        state.playInterval = null;
+        state.isPlaying = false;
+        button.textContent = "▶ Play";
+        return;
+    }
+
+    state.isPlaying = true;
+    button.textContent = "⏸ Pause";
+
+    state.playInterval = setInterval(() => {
+
+        state.selectedYear++;
+
+        if (state.selectedYear > 1500) {
+            state.selectedYear = 500;
+        }
+
+        document.getElementById("yearSlider").value = state.selectedYear;
+        document.getElementById("yearValue").textContent =
+            `${state.selectedYear} CE`;
+
+        updateVisibleLayers();
+
+        if (state.selectedFeature) {
+            renderInfoPanel(state.selectedFeature);
+        }
+
+    }, state.playSpeed);
 }
