@@ -236,7 +236,11 @@ function renderTimelineMarkers() {
 
   if (!container) return;
 
-  container.innerHTML = timelineEvents.map(event => {
+  const markerYears = [500, 800, 1066, 1204, 1453, 1500];
+
+  container.innerHTML = timelineEvents
+  .filter(event => markerYears.includes(event.year))
+  .map(event => {
     const position = ((event.year - 500) / 1000) * 100;
 
     return `
@@ -349,7 +353,26 @@ function advanceTimelineYear() {
   document.getElementById("yearValue").textContent = `${state.selectedYear} CE`;
 
   updateVisibleLayers();
-  renderEventsForYear();
+
+  function renderEventsForYear() {
+  const container = document.getElementById("eventsThisYear");
+
+  if (!container) return;
+
+  const events = timelineEvents.filter(event => event.year === state.selectedYear);
+
+  if (events.length === 0) {
+    container.innerHTML = `<p class="muted">No major event listed for this year yet.</p>`;
+    return;
+  }
+
+  container.innerHTML = events.map(event => `
+    <article class="timeline-event featured-event">
+      <div class="event-type">${event.type}</div>
+      <strong>${event.year}: ${event.title}</strong>
+    </article>
+  `).join("");
+}
 
   if (state.selectedFeature) {
     renderInfoPanel(state.selectedFeature);
