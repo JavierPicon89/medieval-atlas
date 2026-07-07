@@ -236,7 +236,7 @@ function renderTimelineMarkers() {
 
   if (!container) return;
 
-  const markerYears = [500, 800, 1066, 1204, 1453, 1500];
+  const markerYears = [500, 800, 1066, 1453, 1500];
 
   container.innerHTML = timelineEvents
   .filter(event => markerYears.includes(event.year))
