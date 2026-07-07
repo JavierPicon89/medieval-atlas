@@ -1,16 +1,12 @@
-alert("NEW APP.JS LOADED");
-
 let kingdomDatabase = {};
 let timelineEvents = [];
 
 const state = {
   selectedYear: 500,
   selectedFeature: null,
-
   isPlaying: false,
   playInterval: null,
   playSpeed: 250,
-
   layers: {
     kingdoms: true
   }
@@ -41,6 +37,7 @@ map.on("load", async () => {
 
   buildInterface();
   updateVisibleLayers();
+  renderEventsForYear();
   renderInfoPanel(null);
 });
 
@@ -101,7 +98,7 @@ function buildInterface() {
     <div id="yearValue" class="year-value">${state.selectedYear} CE</div>
 
     <div class="timeline-controls">
-    <button id="playButton" onclick="toggleTimelinePlayback()">▶ Play</button>
+      <button id="playButton">▶ Play</button>
     </div>
 
     <input
@@ -115,7 +112,6 @@ function buildInterface() {
 
     <section class="panel-section">
       <h2>Layers</h2>
-
       <label class="checkbox-row">
         <input id="kingdomsToggle" type="checkbox" checked />
         Kingdoms
@@ -140,9 +136,12 @@ function buildInterface() {
 
   document.body.appendChild(panel);
 
+  document.getElementById("playButton").addEventListener("click", toggleTimelinePlayback);
+
   document.getElementById("yearSlider").addEventListener("input", (event) => {
     state.selectedYear = Number(event.target.value);
     document.getElementById("yearValue").textContent = `${state.selectedYear} CE`;
+
     updateVisibleLayers();
     renderEventsForYear();
 
@@ -155,8 +154,51 @@ function buildInterface() {
     state.layers.kingdoms = event.target.checked;
     updateVisibleLayers();
   });
+}
 
-  renderEventsForYear();
+function renderInfoPanel(record) {
+  const panel = document.getElementById("infoPanel");
+
+  if (!panel) return;
+
+  if (!record) {
+    panel.innerHTML = `
+      <p class="muted">Click a kingdom on the map to see historical information.</p>
+    `;
+    return;
+  }
+
+  const activeNow =
+    record.startYear <= state.selectedYear &&
+    record.endYear >= state.selectedYear;
+
+  panel.innerHTML = `
+    <article class="feature-card">
+      <div class="feature-status ${activeNow ? "active" : "inactive"}">
+        ${activeNow ? "Active in this year" : "Not active in this year"}
+      </div>
+
+      <h3>${record.name}</h3>
+
+      <div class="fact-grid">
+        <div><span>Type</span><strong>${record.type}</strong></div>
+        <div><span>Years</span><strong>${record.startYear}–${record.endYear}</strong></div>
+        <div><span>Capital</span><strong>${record.capital}</strong></div>
+        <div><span>Religion</span><strong>${record.religion}</strong></div>
+        <div><span>Ruler</span><strong>${record.ruler}</strong></div>
+        <div><span>Dynasty</span><strong>${record.dynasty}</strong></div>
+      </div>
+
+      <p class="description">${record.description}</p>
+
+      <h4>Important events</h4>
+      <ul class="events-list">
+        ${(record.importantEvents || []).map(event => `<li>${event}</li>`).join("")}
+      </ul>
+
+      <p class="notes">${record.notes || ""}</p>
+    </article>
+  `;
 }
 
 function renderEventsForYear() {
@@ -177,76 +219,6 @@ function renderEventsForYear() {
       <strong>${event.year}: ${event.title}</strong>
     </article>
   `).join("");
-}
-
-function renderInfoPanel(record) {
-  const panel = document.getElementById("infoPanel");
-
-  if (!panel) return;
-
-  if (!record) {
-    panel.innerHTML = `
-      <p class="muted">
-        Click a kingdom on the map to see historical information.
-      </p>
-    `;
-    return;
-  }
-
-  const activeNow =
-    record.startYear <= state.selectedYear &&
-    record.endYear >= state.selectedYear;
-
-  panel.innerHTML = `
-    <article class="feature-card">
-      <div class="feature-status ${activeNow ? "active" : "inactive"}">
-        ${activeNow ? "Active in this year" : "Not active in this year"}
-      </div>
-
-      <h3>${record.name}</h3>
-
-      <div class="fact-grid">
-        <div>
-          <span>Type</span>
-          <strong>${record.type}</strong>
-        </div>
-
-        <div>
-          <span>Years</span>
-          <strong>${record.startYear}–${record.endYear}</strong>
-        </div>
-
-        <div>
-          <span>Capital</span>
-          <strong>${record.capital}</strong>
-        </div>
-
-        <div>
-          <span>Religion</span>
-          <strong>${record.religion}</strong>
-        </div>
-
-        <div>
-          <span>Ruler</span>
-          <strong>${record.ruler}</strong>
-        </div>
-
-        <div>
-          <span>Dynasty</span>
-          <strong>${record.dynasty}</strong>
-        </div>
-      </div>
-
-      <p class="description">${record.description}</p>
-
-      <h4>Important events</h4>
-      <ul class="events-list">
-        ${(record.importantEvents || []).map(event => `<li>${event}</li>`).join("")}
-      </ul>
-
-      <p class="notes">${record.notes || ""}</p>
-    </article>
-  `;
 }
 
 function updateVisibleLayers() {
@@ -281,10 +253,7 @@ function updateVisibleCount() {
   if (!counter) return;
 
   const visibleRecords = Object.values(kingdomDatabase).filter(record => {
-    return (
-      record.startYear <= state.selectedYear &&
-      record.endYear >= state.selectedYear
-    );
+    return record.startYear <= state.selectedYear && record.endYear >= state.selectedYear;
   });
 
   counter.textContent =
