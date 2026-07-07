@@ -213,34 +213,22 @@ body {
 
 .timeline-markers {
   position: relative;
-  height: 34px;
-  margin: 8px 0 4px;
-  border-top: 1px solid rgba(148, 163, 184, 0.35);
+  height: 48px;
+  margin: 12px 0 4px;
+  border-top: 2px solid rgba(251, 191, 36, 0.7);
 }
 
 .timeline-marker {
   position: absolute;
-  top: -7px;
+  top: -10px;
   transform: translateX(-50%);
-  border: 0;
-  background: transparent;
+  border: 1px solid rgba(251, 191, 36, 0.8);
+  background: rgba(15, 23, 42, 0.95);
   color: #fbbf24;
   cursor: pointer;
-  padding: 0;
+  padding: 4px 6px;
+  border-radius: 6px;
   font-size: 11px;
   font-weight: 800;
-}
-
-.timeline-marker::before {
-  content: "";
-  display: block;
-  width: 2px;
-  height: 10px;
-  margin: 0 auto 3px;
-  background: #fbbf24;
-  border-radius: 999px;
-}
-
-.timeline-marker:hover {
-  color: #fde68a;
+  z-index: 30;
 }
