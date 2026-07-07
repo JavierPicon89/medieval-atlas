@@ -1,6 +1,10 @@
+alert("NEW APP.JS LOADED");
+
 let kingdomDatabase = {};
+
 const state = {
   selectedYear: 500,
+  selectedFeature: null,
   layers: {
     kingdoms: true
   }
@@ -16,11 +20,10 @@ const map = new maplibregl.Map({
 map.addControl(new maplibregl.NavigationControl(), "top-left");
 
 map.on("load", async () => {
-
   const dbResponse = await fetch("data/kingdoms.json");
-kingdomDatabase = await dbResponse.json();
+  kingdomDatabase = await dbResponse.json();
 
-await loadGeoJsonLayer({
+  await loadGeoJsonLayer({
     id: "kingdoms",
     url: "geojson/kingdoms.geojson",
     fallbackFillColor: "#7c3aed",
@@ -29,13 +32,12 @@ await loadGeoJsonLayer({
 
   buildInterface();
   updateVisibleLayers();
+  renderInfoPanel(null);
 });
 
 async function loadGeoJsonLayer({ id, url, fallbackFillColor, lineColor }) {
   const response = await fetch(`${url}?cache=${Date.now()}`);
   const data = await response.json();
-
-  console.log(`${id} features loaded:`, data.features.length);
 
   map.addSource(id, {
     type: "geojson",
@@ -63,28 +65,11 @@ async function loadGeoJsonLayer({ id, url, fallbackFillColor, lineColor }) {
   });
 
   map.on("click", `${id}-fill`, (event) => {
-
-    console.log("Polygon clicked!");
-
     const p = event.features[0].properties;
     const record = kingdomDatabase[p.id] || p;
-    console.log(record);
 
-    new maplibregl.Popup()
-      .setLngLat(event.lngLat)
-      .setHTML(`
-      <h3>${record.name}</h3>
-      <p><strong>Type:</strong> ${record.type}</p>
-      <p><strong>Religion:</strong> ${record.religion}</p>
-      <p><strong>Capital:</strong> ${record.capital}</p>
-      <p><strong>Ruler:</strong> ${record.ruler}</p>
-      <p><strong>Dynasty:</strong> ${record.dynasty}</p>
-      <p><strong>Years:</strong> ${record.startYear}–${record.endYear}</p>
-      <p>${record.description}</p>
-      <h4>Important events</h4>
-  <p>Events found: ${record.importantEvents ? record.importantEvents.length : 0}</p>
-      `)
-      .addTo(map);
+    state.selectedFeature = record;
+    renderInfoPanel(record);
   });
 
   map.on("mouseenter", `${id}-fill`, () => {
@@ -128,6 +113,11 @@ function buildInterface() {
       <h2>Visible historical regions</h2>
       <div id="visibleCount">Loading...</div>
     </section>
+
+    <section class="panel-section">
+      <h2>Selected feature</h2>
+      <div id="infoPanel" class="info-panel"></div>
+    </section>
   `;
 
   document.body.appendChild(panel);
@@ -136,12 +126,86 @@ function buildInterface() {
     state.selectedYear = Number(event.target.value);
     document.getElementById("yearValue").textContent = `${state.selectedYear} CE`;
     updateVisibleLayers();
+
+    if (state.selectedFeature) {
+      renderInfoPanel(state.selectedFeature);
+    }
   });
 
   document.getElementById("kingdomsToggle").addEventListener("change", (event) => {
     state.layers.kingdoms = event.target.checked;
     updateVisibleLayers();
   });
+}
+
+function renderInfoPanel(record) {
+  const panel = document.getElementById("infoPanel");
+
+  if (!panel) return;
+
+  if (!record) {
+    panel.innerHTML = `
+      <p class="muted">
+        Click a kingdom on the map to see historical information.
+      </p>
+    `;
+    return;
+  }
+
+  const activeNow =
+    record.startYear <= state.selectedYear &&
+    record.endYear >= state.selectedYear;
+
+  panel.innerHTML = `
+    <article class="feature-card">
+      <div class="feature-status ${activeNow ? "active" : "inactive"}">
+        ${activeNow ? "Active in this year" : "Not active in this year"}
+      </div>
+
+      <h3>${record.name}</h3>
+
+      <div class="fact-grid">
+        <div>
+          <span>Type</span>
+          <strong>${record.type}</strong>
+        </div>
+
+        <div>
+          <span>Years</span>
+          <strong>${record.startYear}–${record.endYear}</strong>
+        </div>
+
+        <div>
+          <span>Capital</span>
+          <strong>${record.capital}</strong>
+        </div>
+
+        <div>
+          <span>Religion</span>
+          <strong>${record.religion}</strong>
+        </div>
+
+        <div>
+          <span>Ruler</span>
+          <strong>${record.ruler}</strong>
+        </div>
+
+        <div>
+          <span>Dynasty</span>
+          <strong>${record.dynasty}</strong>
+        </div>
+      </div>
+
+      <p class="description">${record.description}</p>
+
+      <h4>Important events</h4>
+      <ul class="events-list">
+        ${(record.importantEvents || []).map(event => `<li>${event}</li>`).join("")}
+      </ul>
+
+      <p class="notes">${record.notes || ""}</p>
+    </article>
+  `;
 }
 
 function updateVisibleLayers() {
@@ -167,10 +231,10 @@ function updateLayerVisibility(id) {
     map.setLayoutProperty(`${id}-line`, "visibility", visible);
   }
 
-  updateVisibleCount(id);
+  updateVisibleCount();
 }
 
-function updateVisibleCount(id) {
+function updateVisibleCount() {
   const counter = document.getElementById("visibleCount");
 
   if (!counter) return;
