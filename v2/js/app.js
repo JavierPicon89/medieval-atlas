@@ -1,6 +1,7 @@
 alert("NEW APP.JS LOADED");
 
 let kingdomDatabase = {};
+let timelineEvents = [];
 
 const state = {
   selectedYear: 500,
@@ -27,6 +28,9 @@ map.addControl(new maplibregl.NavigationControl(), "top-left");
 map.on("load", async () => {
   const dbResponse = await fetch("data/kingdoms.json");
   kingdomDatabase = await dbResponse.json();
+
+  const eventsResponse = await fetch("data/events.json");
+  timelineEvents = await eventsResponse.json();
 
   await loadGeoJsonLayer({
     id: "kingdoms",
@@ -97,10 +101,10 @@ function buildInterface() {
     <div id="yearValue" class="year-value">${state.selectedYear} CE</div>
 
     <div class="timeline-controls">
-    <button id="playButton" onclick="toggleTimelinePlayback()">▶ Play</button>
+      <button id="playButton" onclick="toggleTimelinePlayback()">▶ Play</button>
     </div>
 
-      <input
+    <input
       id="yearSlider"
       type="range"
       min="500"
@@ -124,6 +128,11 @@ function buildInterface() {
     </section>
 
     <section class="panel-section">
+      <h2>Events this year</h2>
+      <div id="eventsThisYear" class="events-this-year"></div>
+    </section>
+
+    <section class="panel-section">
       <h2>Selected feature</h2>
       <div id="infoPanel" class="info-panel"></div>
     </section>
@@ -135,6 +144,7 @@ function buildInterface() {
     state.selectedYear = Number(event.target.value);
     document.getElementById("yearValue").textContent = `${state.selectedYear} CE`;
     updateVisibleLayers();
+    renderEventsForYear();
 
     if (state.selectedFeature) {
       renderInfoPanel(state.selectedFeature);
@@ -146,10 +156,27 @@ function buildInterface() {
     updateVisibleLayers();
   });
 
-  document.getElementById("playButton").addEventListener("click", () => {
-    toggleTimelinePlayback();
-  });
+  renderEventsForYear();
+}
 
+function renderEventsForYear() {
+  const container = document.getElementById("eventsThisYear");
+
+  if (!container) return;
+
+  const events = timelineEvents.filter(event => event.year === state.selectedYear);
+
+  if (events.length === 0) {
+    container.innerHTML = `<p class="muted">No major event listed for this year yet.</p>`;
+    return;
+  }
+
+  container.innerHTML = events.map(event => `
+    <article class="timeline-event">
+      <div class="event-type">${event.type}</div>
+      <strong>${event.year}: ${event.title}</strong>
+    </article>
+  `).join("");
 }
 
 function renderInfoPanel(record) {
