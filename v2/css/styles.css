@@ -234,8 +234,9 @@ body {
 }
 
 .featured-event {
-  animation: eventPulse 1.2s ease-in-out;
-  background: rgba(251, 191, 36, 0.16);
+  animation: eventPulse 1.8s ease-in-out;
+  background: rgba(251, 191, 36, 0.22);
+  border-color: rgba(251, 191, 36, 0.8);
 }
 
 @keyframes eventPulse {
@@ -245,8 +246,8 @@ body {
   }
 
   50% {
-    transform: scale(1.02);
-    box-shadow: 0 0 22px rgba(251, 191, 36, 0.28);
+    transform: scale(1.04);
+    box-shadow: 0 0 32px rgba(251, 191, 36, 0.75);
   }
 
   100% {
