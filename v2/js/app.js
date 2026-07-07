@@ -290,13 +290,29 @@ function updateVisibleCount() {
     `${visibleRecords.length} regions active in ${state.selectedYear} CE`;
 }
 
+
+function jumpToYear(year) {
+  state.selectedYear = year;
+
+  document.getElementById("yearSlider").value = year;
+  document.getElementById("yearValue").textContent = `${year} CE`;
+
+  updateVisibleLayers();
+  renderEventsForYear();
+
+  if (state.selectedFeature) {
+    renderInfoPanel(state.selectedFeature);
+  }
+}
+
 function toggleTimelinePlayback() {
   const button = document.getElementById("playButton");
 
   if (state.isPlaying) {
+    state.isPlaying = false;
+    state.playRunId = (state.playRunId || 0) + 1;
     clearTimeout(state.playInterval);
     state.playInterval = null;
-    state.isPlaying = false;
     button.textContent = "▶ Play";
     return;
   }
@@ -304,41 +320,33 @@ function toggleTimelinePlayback() {
   state.isPlaying = true;
   button.textContent = "⏸ Pause";
 
-  scheduleNextYear(state.playSpeed);
+  state.playRunId = (state.playRunId || 0) + 1;
+  runTimeline(state.playRunId);
 }
 
-function scheduleNextYear(delay) {
-  clearTimeout(state.playInterval);
+function runTimeline(runId) {
+  if (!state.isPlaying || runId !== state.playRunId) return;
+
+  advanceTimelineYear();
+
+  const delay = hasEventForYear(state.selectedYear)
+    ? 3000
+    : state.playSpeed;
 
   state.playInterval = setTimeout(() => {
-    if (!state.isPlaying) return;
-
-    state.selectedYear++;
-
-    if (state.selectedYear > 1500) {
-      state.selectedYear = 500;
-    }
-
-    document.getElementById("yearSlider").value = state.selectedYear;
-    document.getElementById("yearValue").textContent = `${state.selectedYear} CE`;
-
-    updateVisibleLayers();
-    renderEventsForYear();
-
-    if (state.selectedFeature) {
-      renderInfoPanel(state.selectedFeature);
-    }
-
-    const nextDelay = hasEventForYear(state.selectedYear) ? 3000 : state.playSpeed;
-    scheduleNextYear(nextDelay);
+    runTimeline(runId);
   }, delay);
 }
 
-function jumpToYear(year) {
-  state.selectedYear = year;
+function advanceTimelineYear() {
+  state.selectedYear++;
 
-  document.getElementById("yearSlider").value = year;
-  document.getElementById("yearValue").textContent = `${year} CE`;
+  if (state.selectedYear > 1500) {
+    state.selectedYear = 500;
+  }
+
+  document.getElementById("yearSlider").value = state.selectedYear;
+  document.getElementById("yearValue").textContent = `${state.selectedYear} CE`;
 
   updateVisibleLayers();
   renderEventsForYear();
