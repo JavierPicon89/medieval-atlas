@@ -293,7 +293,22 @@ function updateVisibleCount() {
 function toggleTimelinePlayback() {
   const button = document.getElementById("playButton");
 
-  function advanceYear() {
+  if (state.isPlaying) {
+    clearInterval(state.playInterval);
+    state.playInterval = null;
+    state.isPlaying = false;
+    button.textContent = "▶ Play";
+    return;
+  }
+
+  state.isPlaying = true;
+  button.textContent = "⏸ Pause";
+
+  startTimelineInterval();
+}
+
+function startTimelineInterval() {
+  state.playInterval = setInterval(() => {
     state.selectedYear++;
 
     if (state.selectedYear > 1500) {
@@ -316,24 +331,13 @@ function toggleTimelinePlayback() {
 
       setTimeout(() => {
         if (state.isPlaying) {
-          state.playInterval = setInterval(advanceYear, state.playSpeed);
+          startTimelineInterval();
         }
       }, 3000);
     }
-  }
-
-  if (state.isPlaying) {
-    clearInterval(state.playInterval);
-    state.playInterval = null;
-    state.isPlaying = false;
-    button.textContent = "▶ Play";
-    return;
-  }
-
-  state.isPlaying = true;
-  button.textContent = "⏸ Pause";
-  state.playInterval = setInterval(advanceYear, state.playSpeed);
+  }, state.playSpeed);
 }
+
 function jumpToYear(year) {
   state.selectedYear = year;
 
