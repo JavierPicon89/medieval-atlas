@@ -110,6 +110,8 @@ function buildInterface() {
       value="${state.selectedYear}"
     />
 
+    <div id="timelineMarkers" class="timeline-markers"></div>
+
     <section class="panel-section">
       <h2>Layers</h2>
       <label class="checkbox-row">
@@ -154,7 +156,11 @@ function buildInterface() {
     state.layers.kingdoms = event.target.checked;
     updateVisibleLayers();
   });
+
+  renderTimelineMarkers();
 }
+
+
 
 function renderInfoPanel(record) {
   const panel = document.getElementById("infoPanel");
@@ -219,6 +225,31 @@ function renderEventsForYear() {
       <strong>${event.year}: ${event.title}</strong>
     </article>
   `).join("");
+}
+
+function renderTimelineMarkers() {
+  const container = document.getElementById("timelineMarkers");
+
+  if (!container) return;
+
+  const importantYears = timelineEvents.filter(event =>
+    [500, 800, 1066, 1095, 1204, 1453, 1492, 1500].includes(event.year)
+  );
+
+  container.innerHTML = importantYears.map(event => {
+    const position = ((event.year - 500) / 1000) * 100;
+
+    return `
+      <button
+        class="timeline-marker"
+        style="left: ${position}%"
+        title="${event.year}: ${event.title}"
+        onclick="jumpToYear(${event.year})"
+      >
+        <span>${event.year}</span>
+      </button>
+    `;
+  }).join("");
 }
 
 function updateVisibleLayers() {
@@ -291,4 +322,18 @@ function toggleTimelinePlayback() {
       renderInfoPanel(state.selectedFeature);
     }
   }, state.playSpeed);
+}
+
+function jumpToYear(year) {
+  state.selectedYear = year;
+
+  document.getElementById("yearSlider").value = year;
+  document.getElementById("yearValue").textContent = `${year} CE`;
+
+  updateVisibleLayers();
+  renderEventsForYear();
+
+  if (state.selectedFeature) {
+    renderInfoPanel(state.selectedFeature);
+  }
 }
