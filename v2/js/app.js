@@ -232,11 +232,7 @@ function renderTimelineMarkers() {
 
   if (!container) return;
 
-  const importantYears = timelineEvents.filter(event =>
-    [500, 800, 1066, 1095, 1204, 1453, 1492, 1500].includes(event.year)
-  );
-
-  container.innerHTML = importantYears.map(event => {
+  container.innerHTML = timelineEvents.map(event => {
     const position = ((event.year - 500) / 1000) * 100;
 
     return `
@@ -246,12 +242,11 @@ function renderTimelineMarkers() {
         title="${event.year}: ${event.title}"
         onclick="jumpToYear(${event.year})"
       >
-        <span>${event.year}</span>
+        ${event.year}
       </button>
     `;
   }).join("");
 }
-
 function updateVisibleLayers() {
   updateLayerVisibility("kingdoms");
 }
