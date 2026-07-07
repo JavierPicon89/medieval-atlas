@@ -170,18 +170,22 @@ body {
   margin: 12px 0;
 }
 
-.timeline-controls button {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  background: #f5b942;
-  color: #111;
-  font-weight: bold;
-  font-size: 15px;
-  cursor: pointer;
+.timeline-controls {
+  display: block;
+  margin: 12px 0 14px;
+  position: relative;
+  z-index: 20;
 }
 
-.timeline-controls button:hover {
-  opacity: 0.9;
+#playButton {
+  display: block;
+  width: 100%;
+  padding: 12px 14px;
+  border: 0;
+  border-radius: 10px;
+  background: #fbbf24;
+  color: #111827;
+  font-weight: 800;
+  font-size: 16px;
+  cursor: pointer;
 }
