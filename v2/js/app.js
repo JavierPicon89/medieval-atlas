@@ -97,7 +97,7 @@ function buildInterface() {
     <div id="yearValue" class="year-value">${state.selectedYear} CE</div>
 
     <div class="timeline-controls">
-    <button id="playButton">▶ Play</button>
+    <button id="playButton" onclick="toggleTimelinePlayback()">▶ Play</button>
     </div>
 
       <input
