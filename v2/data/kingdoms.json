@@ -20,7 +20,7 @@
   },
   "visigothic_kingdom_500": {
     "name": "Visigothic Kingdom",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Alaric_II.jpg/640px-Alaric_II.jpg",    "type": "Kingdom",
+    "image": "assets/images/visigoths.jpg",
     "startYear": 418,
     "endYear": 711,
     "capital": "Toulouse / later Toledo",

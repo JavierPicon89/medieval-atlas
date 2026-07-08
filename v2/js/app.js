@@ -184,9 +184,17 @@ function renderInfoPanel(record) {
         ${activeNow ? "Active in this year" : "Not active in this year"}
       </div>
 
-      <h3>${record.name}</h3>
+      ${record.image ? `
+      <img
+        class="kingdom-image"
+        src="${record.image}"
+        alt="${record.name}"
+       >
+        ` : ""}
 
-      <div class="fact-grid">
+        <h3>${record.name}</h3>
+
+        <div class="fact-grid">
         <div><span>Type</span><strong>${record.type}</strong></div>
         <div><span>Years</span><strong>${record.startYear}–${record.endYear}</strong></div>
         <div><span>Capital</span><strong>${record.capital}</strong></div>
@@ -239,22 +247,18 @@ function renderTimelineMarkers() {
   const markerYears = [500, 800, 1066, 1492];
 
   container.innerHTML = timelineEvents
-  .filter(event => markerYears.includes(event.year))
-  .map((event, index) => {
-    const position = 5 + (index / (markerYears.length - 1)) * 90;
-
-    return `
+    .filter(event => markerYears.includes(event.year))
+    .map(event => `
       <button
         class="timeline-marker"
-        style="left: ${position}%"
         title="${event.year}: ${event.title}"
         onclick="jumpToYear(${event.year})"
       >
         ${event.year}
       </button>
-    `;
-  }).join("");
+    `).join("");
 }
+
 function updateVisibleLayers() {
   updateLayerVisibility("kingdoms");
 }
