@@ -22,10 +22,10 @@ const map = new maplibregl.Map({
 map.addControl(new maplibregl.NavigationControl(), "top-left");
 
 map.on("load", async () => {
-  const dbResponse = await fetch("data/kingdoms.json");
+  const dbResponse = await fetch(`data/kingdoms.json?cache=${Date.now()}`);
   kingdomDatabase = await dbResponse.json();
 
-  const eventsResponse = await fetch("data/events.json");
+  const eventsResponse = await fetch(`data/events.json?cache=${Date.now()}`);
   timelineEvents = await eventsResponse.json();
 
   await loadGeoJsonLayer({
