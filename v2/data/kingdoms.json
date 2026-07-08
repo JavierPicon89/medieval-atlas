@@ -21,6 +21,7 @@
   "visigothic_kingdom_500": {
     "name": "Visigothic Kingdom",
     "image": "assets/images/visigoths.jpg",
+    "type": "Kingdom",
     "startYear": 418,
     "endYear": 711,
     "capital": "Toulouse / later Toledo",
