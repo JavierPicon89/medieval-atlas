@@ -72,7 +72,10 @@ async function loadGeoJsonLayer({ id, url, fallbackFillColor, lineColor }) {
 
   map.on("click", `${id}-fill`, (event) => {
     const p = event.features[0].properties;
-    const record = kingdomDatabase[p.id] || p;
+    const record = {
+  ...p,
+  ...(kingdomDatabase[p.id] || {})
+};
 
     state.selectedFeature = record;
     renderInfoPanel(record);
@@ -173,6 +176,8 @@ function renderInfoPanel(record) {
     `;
     return;
   }
+
+  console.log(record);
 
   const activeNow =
     record.startYear <= state.selectedYear &&
