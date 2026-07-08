@@ -212,25 +212,44 @@ body {
 }
 
 .timeline-markers {
-  position: relative;
-  height: 48px;
-  margin: 12px 0 4px;
-  border-top: 2px solid rgba(251, 191, 36, 0.7);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin: 10px 0 2px;
+  padding: 4px 0 0;
 }
 
 .timeline-marker {
-  position: absolute;
-  top: -10px;
-  transform: translateX(-50%);
-  border: 1px solid rgba(251, 191, 36, 0.8);
-  background: rgba(15, 23, 42, 0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  border: 0;
+  background: transparent;
   color: #fbbf24;
   cursor: pointer;
-  padding: 4px 6px;
-  border-radius: 6px;
+  padding: 0;
   font-size: 11px;
   font-weight: 800;
-  z-index: 30;
+}
+
+.timeline-marker-year {
+  border: 1px solid rgba(251, 191, 36, 0.85);
+  border-radius: 6px;
+  padding: 2px 6px;
+  background: rgba(15, 23, 42, 0.95);
+}
+
+.timeline-marker-tick {
+  width: 2px;
+  height: 10px;
+  background: #fbbf24;
+  border-radius: 999px;
+}
+
+.timeline-marker:hover .timeline-marker-year {
+  color: #111827;
+  background: #fbbf24;
 }
 
 .featured-event {

@@ -236,12 +236,12 @@ function renderTimelineMarkers() {
 
   if (!container) return;
 
-  const markerYears = [500, 800, 1066, 1453, 1500];
+  const markerYears = [500, 800, 1066, 1492];
 
   container.innerHTML = timelineEvents
   .filter(event => markerYears.includes(event.year))
-  .map(event => {
-    const position = ((event.year - 500) / 1000) * 100;
+  .map((event, index) => {
+    const position = 5 + (index / (markerYears.length - 1)) * 90;
 
     return `
       <button
