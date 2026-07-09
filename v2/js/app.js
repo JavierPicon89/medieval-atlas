@@ -172,6 +172,7 @@ function buildInterface() {
   });
 
   renderTimelineMarkers();
+  setupSearch();
 }
 
 
@@ -404,4 +405,30 @@ function getKingdomRecords() {
     id,
     ...record
   }));
+}
+
+function setupSearch() {
+  const input = document.getElementById("atlasSearch");
+  const results = document.getElementById("searchResults");
+
+  if (!input || !results) return;
+
+  input.addEventListener("input", () => {
+    const query = input.value.trim().toLowerCase();
+
+    if (!query) {
+      results.innerHTML = "";
+      return;
+    }
+
+    const matches = getKingdomRecords()
+      .filter(record => record.name.toLowerCase().includes(query))
+      .slice(0, 6);
+
+    results.innerHTML = matches.map(record => `
+      <button class="search-result">
+        ${record.name}
+      </button>
+    `).join("");
+  });
 }
