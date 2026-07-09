@@ -20,7 +20,7 @@
   },
   "visigothic_kingdom_500": {
     "name": "Visigothic Kingdom",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/5/5f/El_rey_visigodo_Alarico_II.jpg",
+    "image": "assets/images/visigoths.jpg",
     "type": "Kingdom",
     "startYear": 418,
     "endYear": 711,
