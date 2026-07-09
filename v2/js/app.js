@@ -421,14 +421,26 @@ function setupSearch() {
       return;
     }
 
-    const matches = getKingdomRecords()
-      .filter(record => record.name.toLowerCase().includes(query))
+    const matches = Object.entries(kingdomDatabase)
+      .map(([id, record]) => ({ id, ...record }))
+      .filter(record =>
+        (record.name || "").toLowerCase().includes(query)
+      )
       .slice(0, 6);
 
     results.innerHTML = matches.map(record => `
-      <button class="search-result">
+      <button class="search-result" onclick="selectKingdomById('${record.id}')">
         ${record.name}
       </button>
     `).join("");
   });
+}
+
+function selectKingdomById(id) {
+  const record = kingdomDatabase[id];
+
+  if (!record) return;
+
+  state.selectedFeature = record;
+  renderInfoPanel(record);
 }
