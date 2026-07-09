@@ -397,3 +397,10 @@ function advanceTimelineYear() {
     renderInfoPanel(state.selectedFeature);
   }
 }
+
+function getKingdomRecords() {
+  return Object.entries(kingdomDatabase).map(([id, record]) => ({
+    id,
+    ...record
+  }));
+}
