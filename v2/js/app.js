@@ -123,6 +123,7 @@ function buildInterface() {
         type="search"
         placeholder="Search kingdoms..."
       />
+      <div id="searchResults" class="search-results"></div>
     </section>
 
     <section class="panel-section">
