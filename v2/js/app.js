@@ -411,6 +411,9 @@ function setupSearch() {
   const input = document.getElementById("atlasSearch");
   const results = document.getElementById("searchResults");
 
+  console.log("Kingdom database:", kingdomDatabase);
+  console.log("Number of kingdoms:", Object.keys(kingdomDatabase).length);
+
   if (!input || !results) return;
 
   input.addEventListener("input", () => {
