@@ -116,6 +116,16 @@ function buildInterface() {
     <div id="timelineMarkers" class="timeline-markers"></div>
 
     <section class="panel-section">
+      <h2>Search</h2>
+      <input
+        id="atlasSearch"
+        class="atlas-search"
+        type="search"
+        placeholder="Search kingdoms..."
+      />
+    </section>
+
+    <section class="panel-section">
       <h2>Layers</h2>
       <label class="checkbox-row">
         <input id="kingdomsToggle" type="checkbox" checked />
