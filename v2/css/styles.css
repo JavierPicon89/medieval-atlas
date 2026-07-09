@@ -283,3 +283,24 @@ body {
     border-radius: 18px 18px 0 0;
     border-bottom: 2px solid rgba(255, 193, 7, 0.35);
 }
+
+.atlas-search {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,193,7,.35);
+    background: #161d31;
+    color: white;
+    font-size: 15px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.atlas-search::placeholder {
+    color: rgba(255,255,255,.45);
+}
+
+.atlas-search:focus {
+    border-color: #ffc107;
+    box-shadow: 0 0 0 3px rgba(255,193,7,.15);
+}
