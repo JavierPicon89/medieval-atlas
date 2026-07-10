@@ -70,16 +70,53 @@ async function loadGeoJsonLayer({ id, url, fallbackFillColor, lineColor }) {
     }
   });
 
-  map.on("click", `${id}-fill`, (event) => {
-    const p = event.features[0].properties;
-    const record = {
-  ...p,
-  ...(kingdomDatabase[p.id] || {})
-};
+map.addLayer({
+  id: `${id}-selected-fill`,
+  type: "fill",
+  source: id,
+  filter: ["==", ["get", "id"], ""],
+  paint: {
+    "fill-color": "#fbbf24",
+    "fill-opacity": 0.35
+  }
+});
 
-    state.selectedFeature = record;
-    renderInfoPanel(record);
-  });
+map.addLayer({
+  id: `${id}-selected-line`,
+  type: "line",
+  source: id,
+  filter: ["==", ["get", "id"], ""],
+  paint: {
+    "line-color": "#fbbf24",
+    "line-width": 4
+  }
+});
+
+ map.on("click", `${id}-fill`, (event) => {
+  const properties = event.features[0].properties;
+  const kingdomId = properties.id;
+
+  const record = {
+    ...properties,
+    ...(kingdomDatabase[kingdomId] || {})
+  };
+
+  state.selectedFeature = record;
+
+  map.setFilter(`${id}-selected-fill`, [
+    "==",
+    ["get", "id"],
+    kingdomId
+  ]);
+
+  map.setFilter(`${id}-selected-line`, [
+    "==",
+    ["get", "id"],
+    kingdomId
+  ]);
+
+  renderInfoPanel(record);
+});
 
   map.on("mouseenter", `${id}-fill`, () => {
     map.getCanvas().style.cursor = "pointer";
