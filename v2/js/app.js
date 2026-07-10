@@ -70,28 +70,6 @@ async function loadGeoJsonLayer({ id, url, fallbackFillColor, lineColor }) {
     }
   });
 
-map.addLayer({
-  id: `${id}-selected-fill`,
-  type: "fill",
-  source: id,
-  filter: ["==", ["get", "id"], ""],
-  paint: {
-    "fill-color": "#fbbf24",
-    "fill-opacity": 0.35
-  }
-});
-
-map.addLayer({
-  id: `${id}-selected-line`,
-  type: "line",
-  source: id,
-  filter: ["==", ["get", "id"], ""],
-  paint: {
-    "line-color": "#fbbf24",
-    "line-width": 4
-  }
-});
-
  map.on("click", `${id}-fill`, (event) => {
   const properties = event.features[0].properties;
   const kingdomId = properties.id;
