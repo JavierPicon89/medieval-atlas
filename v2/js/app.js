@@ -103,17 +103,33 @@ map.addLayer({
 
   state.selectedFeature = record;
 
-  map.setFilter(`${id}-selected-fill`, [
-    "==",
-    ["get", "id"],
-    kingdomId
-  ]);
+map.setPaintProperty(`${id}-fill`, "fill-color", [
+  "case",
+  ["==", ["get", "id"], kingdomId],
+  "#fbbf24",
+  ["coalesce", ["get", "color"], fallbackFillColor]
+]);
 
-  map.setFilter(`${id}-selected-line`, [
-    "==",
-    ["get", "id"],
-    kingdomId
-  ]);
+map.setPaintProperty(`${id}-fill`, "fill-opacity", [
+  "case",
+  ["==", ["get", "id"], kingdomId],
+  0.75,
+  0.55
+]);
+
+map.setPaintProperty(`${id}-line`, "line-color", [
+  "case",
+  ["==", ["get", "id"], kingdomId],
+  "#fbbf24",
+  lineColor
+]);
+
+map.setPaintProperty(`${id}-line`, "line-width", [
+  "case",
+  ["==", ["get", "id"], kingdomId],
+  5,
+  2
+]);
 
   renderInfoPanel(record);
 });
