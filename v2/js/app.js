@@ -91,7 +91,7 @@ map.setPaintProperty(`${id}-fill`, "fill-color", [
 map.setPaintProperty(`${id}-fill`, "fill-opacity", [
   "case",
   ["==", ["get", "id"], kingdomId],
-  0.75,
+  0.6a5,
   0.55
 ]);
 
@@ -457,9 +457,21 @@ function setupSearch() {
 
     const matches = Object.entries(kingdomDatabase)
       .map(([id, record]) => ({ id, ...record }))
-      .filter(record =>
-        (record.name || "").toLowerCase().includes(query)
-      )
+      .filter(record => {
+      const searchableText = [
+        record.name,
+        record.capital,
+        record.ruler,
+        record.dynasty,
+        record.religion,
+        record.type
+      ]  
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      return searchableText.includes(query);
+    })
       .slice(0, 6);
 
     results.innerHTML = matches.map(record => `
